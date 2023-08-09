@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PlanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 
@@ -19,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/menu', function () {
+    return view('menu');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -33,4 +38,15 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+
+
+Route::get('plan', [Controllers\PlanController::class,'planAll']);
+Route::get('plan/{plan}', [Controllers\PlanController::class,'getOne']);
+Route::get('menus', [Controllers\MenuController::class, 'getAll']);
+Route::get('menu/{menu}', [Controllers\MenuController::class,'getOne']);
+
+
+// маршрут для статической страницы, он всегда последний
 require __DIR__ . '/auth.php';
+Route::get('/{url}', [Controllers\BaseController::class, 'getText']);
+
